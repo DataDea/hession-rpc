@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 数据库驱动(由于本工程下已经放了数据库驱动(jar包),所以不需要下面这行了，如果数据库驱动(jar包)放在其它位置了，就需要下面这行了-->
+    <!-- <classPathEntry location="F:\workspace\MybatisGeneratorForMySQL\mysql-connector-java-5.1.35.jar" /> -->
+    <classPathEntry location="/opt/mavens/repository/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar"></classPathEntry>
+    <context id="MySQLTables" targetRuntime="MyBatis3">
+
+
+        <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />-->
+        <!--<plugin type="org.yanghai.utils.SerializablePlugin" />-->
+        <!--<plugin type="org.yanghai.utils.ToStringPlugin" />-->
+        <!--<plugin type="org.yanghai.utils.RowBoundsPlugin" />-->
+
+        <commentGenerator>
+        	<!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
+            <property name="suppressAllComments" value="false" />
+        </commentGenerator>
+        <!-- 连接参数 -->
+        <!-- 使用IP连接 mysql默认的端口号是3306 -->
+		<!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.1.3:3306/a2" userId="root" password="123456"> -->
+        <!-- 使用localhost连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/mydb?characterEncoding=utf-8" userId="root" password="root">
+        </jdbcConnection>
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置 --> 
+        <javaModelGenerator targetPackage="org.yanghai.dao.model" targetProject="/disk/project/test/src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <!-- 是否对数据库查询结果进行trim操作，如果设置为true在model的实体类中就会出现例如this.* = * == null ? null : *.trim(); -->
+            <property name="trimStrings" value="false" />
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置 -->  
+        <sqlMapGenerator targetPackage="mybaties" targetProject="/disk/project/test/src/main/resources/">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+        <!-- 生成map接口的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.yanghai.dao.mapper"  targetProject="/disk/project/test/src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <!-- 关联表是必须写的，否则此工具就没有用了 -->
+        <!-- PS:以下几个参数是为了防止生成Example类  enableCountByExample="false"
+                enableUpdateByExample="false"	enableDeleteByExample="false" enableSelectByExample="false"
+                selectByExampleQueryId="false" -->
+        <table tableName="person" domainObjectName="Person" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"	selectByExampleQueryId="true">
+        	<!--如果不写以下内容，那么本工具会自动生成实体类中的类型，如果想手动指定表中字段类型对应实体类中的变量类型，需要写以下的内容 ，
+        	当然了下面我这只是举了一个例子，我要把表中的int型字段对应的实体类中的类型设定为int(默认是设定Integer的) -->
+			<!-- <columnOverride column="apply_id" javaType="int"/> -->
+        </table>
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!--<context:properties location="classpath:mysqldb.properties"></context:properties>-->
+    <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/mydb?characterEncoding=UTF-8"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+        <!--&lt;!&ndash; 初始化连接 &ndash;&gt;-->
+        <!--<property name="initialSize" value="${mysql.initialSize}"/>-->
+        <!--&lt;!&ndash; 最大空闲连接 &ndash;&gt;-->
+        <!--<property name="maxIdle" value="${mysql.maxIdle}"/>-->
+        <!--&lt;!&ndash; 最小空闲连接 &ndash;&gt;-->
+        <!--<property name="minIdle" value="${mysql.minIdle}"/>-->
+        <!--&lt;!&ndash; 最大连接数量 &ndash;&gt;-->
+        <!--<property name="maxActive" value="${mysql.maxActive}"/>-->
+    </bean>
+
+    <!--Mybaaties的配置-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="mysqlDataSource"></property>
+        <!--<property name="configLocation" value="mybatiesconfig.xml"></property>-->
+        <property name="typeAliasesPackage" value="org.yanghai.dao.model"></property>
+        <property name="mapperLocations" value="classpath*:mybaties/*Mapper.xml"></property>
+    </bean>
+
+    <!--自动扫描接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.yanghai.dao.mapper"></property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="mysqlDataSource"></property>
+    </bean>
+
+    <!-- 哪些类哪些方法使用事务 -->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="serviceOperation"
+                      expression="execution(* org.yanghai.imp.impls.*.*(..))"/>
+        <aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <!-- 事务的传播特性 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+            <tx:method name="truckAudit*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+            <tx:method name="priSyn*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+            <tx:method name="*Audit*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+            <tx:method name="update*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+            <tx:method name="delete*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+            <tx:method name="verify*" propagation="REQUIRED"
+                       rollback-for="Throwable" timeout="600"/>
+        </tx:attributes>
+    </tx:advice>
+
+
+</beans>

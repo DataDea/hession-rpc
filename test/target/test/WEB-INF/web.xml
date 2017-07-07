@@ -1,0 +1,64 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+    <display-name>Archetype Created Web Application</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:springall.xml</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>test-remote</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring-remote.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>test-remote</servlet-name>
+        <url-pattern>/hession/*</url-pattern>
+    </servlet-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+
+    <!--单独的例子-->
+    <!--<servlet>-->
+        <!--<servlet-name>hessian-service</servlet-name>-->
+
+        <!--<servlet-class>-->
+            <!--com.caucho.hessian.server.HessianServlet-->
+        <!--</servlet-class>-->
+
+        <!--<init-param>-->
+            <!--<param-name>home-class</param-name>-->
+            <!--&lt;!&ndash;服务的实现类&ndash;&gt;-->
+            <!--<param-value>org.yanghai.service.HelloServiceImp</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>home-api</param-name>-->
+            <!--&lt;!&ndash; 服务接口 &ndash;&gt;-->
+            <!--<param-value>org.yanghai.interfaces.IHelloService</param-value>-->
+        <!--</init-param>-->
+
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>hessian-service</servlet-name>-->
+        <!--<url-pattern>/hessian</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+</web-app>

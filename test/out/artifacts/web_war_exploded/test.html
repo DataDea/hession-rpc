@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.0.0.min.js"></script>
+</head>
+<body>
+    <select id="type1" name="type1">
+        <option value="1" >是</option>
+        <option value="2">否</option>
+    </select>type1
+</body>
+<script>
+    var checkText=$("#type1").find("option:selected").val();
+    alert(checkText)
+</script>
+</html>

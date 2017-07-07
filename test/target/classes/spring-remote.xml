@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+     <!--hession远程接口的配置模板-->
+    <!--
+      <alias name="/pilotService" alias="/com.sinoiov.lhjh.truck.intf.PilotService" />
+	<bean name="/pilotService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="pilotServiceImpl" />
+		<property name="serviceInterface" value="com.sinoiov.lhjh.truck.intf.PilotService" />
+	</bean>
+    -->
+    <!--远程的接口-->
+<!--
+    <bean id="conversionService" class="org.yanghai.imp.impls.ContactImp"></bean>
+-->
+    <alias name="/ContactService" alias="/org/yanghai/imp/intf/ContactService.java"/>
+    <bean name="/ContactService" class="org.springframework.remoting.caucho.HessianServiceExporter">
+        <property name="service" ref="conversionService"></property>
+        <property name="serviceInterface" value="org.yanghai.imp.intf.ContactService"></property>
+    </bean>
+
+
+</beans>
